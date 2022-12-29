@@ -3,10 +3,10 @@ kind: PersistentVolume
 metadata:
   name: my-pv
 spec:
-  storageClassName: manual
+  storageClassName: {{ .Values.storageClassName }}
   capacity:
-    storage: 2Gi
+    storage: {{ .Values.capacity.storage }}
   accessModes:
-    - ReadWriteOnce
+    - {{ .Values.accessModes }}
   hostPath:
-    path: "/mnt/data"
+    path: {{ .Values.hostPath.path }}
