@@ -1,61 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "project-2.fullname" . }}
+  creationTimestamp: null
   labels:
-    {{- include "project-2.labels" . | nindent 4 }}
+    app: {{ .Values.app }}
+  name: {{ .Values.name }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: {{ .Values.spec.replicas }}
   selector:
     matchLabels:
-      {{- include "project-2.selectorLabels" . | nindent 6 }}
+      app: {{ .Values.app }}
+  strategy: {}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      creationTimestamp: null
       labels:
-        {{- include "project-2.selectorLabels" . | nindent 8 }}
+        app: {{ .Values.app }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "project-2.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
+      - image: {{ .Values.containers.images }}
+        name: {{ .Values.containers.name }}
+        envFrom:
+        - secretRef:
+            name: {{ .Values.secretRef.name }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.configMapRef.name }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      - key: {{ .Values.tolerations.key }}
+        operator: {{ .Values.tolerations.operator }}
+        effect: {{ .Values.tolerations.effect }}
+status: {}

@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  DB_HOSTNAME: db.hostname
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: db
