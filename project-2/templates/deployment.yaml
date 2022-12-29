@@ -17,9 +17,16 @@ spec:
       labels:
         app: {{ .Values.app }}
     spec:
+      volumes:
+        - name: task-pv-storage
+          persistentVolumeClaim:
+            claimName: my-pvc
       containers:
       - image: {{ .Values.containers.images }}
         name: {{ .Values.containers.name }}
+        volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: task-pv-storage
         envFrom:
         - secretRef:
             name: {{ .Values.secretRef.name }}
