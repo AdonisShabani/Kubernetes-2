@@ -1,13 +1,13 @@
 spec:
   replicas: 2
  
-app: nginx
+app: nextjs-app
 
-name: nginx
+name: nextjs-app
 
 containers:
-  image: nginx:1.16.1
-  name: nginx
+  image: nextjs-app:1.0.0
+  name: nextjs-app
 
 secretRef:
   name: mysecret
