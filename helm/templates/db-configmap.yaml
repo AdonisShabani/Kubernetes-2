@@ -4,4 +4,4 @@ data:
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: db
+  name: {{ .Release.Name }}-db

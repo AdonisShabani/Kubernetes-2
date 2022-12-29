@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: {{ .Values.app }}
-  name: {{ .Values.name }}
+  name: {{ .Release.Name }}-nextjs
 spec:
   replicas: {{ .Values.spec.replicas }}
   selector:
