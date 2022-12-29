@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: my-pvc
 spec:
-  storageClassName: manual
+  storageClassName: {{ .Values.storageClassName }}
   accessModes:
-    - ReadWriteOnce
+    - {{ .Values.accessModes }}
   resources:
     requests:
-      storage: 1Gi
+      storage: {{ .Values.resources.requests.storage }}
